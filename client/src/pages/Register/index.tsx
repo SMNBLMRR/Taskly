@@ -1,44 +1,40 @@
 import React, { useEffect } from 'react';
 import Header from '../../ui/molecules/Header';
-import userStore from '../../store/user';
+import { useForm } from 'react-hook-form';
+import { doRegister } from '../../services/auth';
 import { Link, useNavigate } from 'react-router-dom';
-import { doLogin } from '../../services/auth';
-import { useForm } from "react-hook-form"
 import { AxiosResponse } from 'axios';
+import userStore from '../../store/user';
 
-interface LoginProps {
+interface RegisterProps {
     
 }
 
 interface FormData {
+    username: string;
     email: string;
     password: string;
 };
 
-const Login: React.FC<LoginProps> = () => {
+const Register: React.FC<RegisterProps> = () => {
 
     // Hooks
-    const setUser = userStore((state) => state?.setUser);
     const navigate = useNavigate();
-    const user = userStore((state) => state?.user);
     const { register, handleSubmit, reset, formState: {errors}} = useForm<FormData>();
+    const user = userStore((state) => state?.user);
 
     useEffect(() => {
-        //if(user) navigate("/todo")
+        if(user) navigate("/todo")
     },[navigate,user])
 
     const onSubmit = (data: FormData) => {
-        doLogin(data)
+        doRegister(data)
         .then((res:AxiosResponse) => {
-            if(res.status === 200){
-                setUser(res?.data)
-                navigate("/todo")
-            }
+            navigate("/login")
         }).catch(err => {
             console.log(err);
         })
     };
-
 
     return (
         <>
@@ -47,6 +43,8 @@ const Login: React.FC<LoginProps> = () => {
                 <form className='shadow-shadow-ligth flex flex-col p-4 rounded w-96' onSubmit={handleSubmit(onSubmit)}>
                     <label htmlFor="email" className='text-gray-700'>Email</label>
                     <input id='email' className='shadow-shadow-ligth py-2 px-3 appearance-none rounded my-4 focus:outline-none focus:shadow-outline' placeholder='my@email.com' type='email' {...register("email", {required:true})} />
+                    <label htmlFor="username" className='text-gray-700'>Username</label>
+                    <input id='username' className='shadow-shadow-ligth py-2 px-3 appearance-none rounded my-4 focus:outline-none focus:shadow-outline' placeholder='user9991' type='text' {...register("username", {required:true})} />
                     <label htmlFor="password" className='text-gray-700'>Password</label>
                     <input id='password' className='shadow-shadow-ligth py-2 px-3 appearance-none rounded my-4 focus:outline-none focus:shadow-outline' placeholder='***************' type="password" {...register("password",{required:true})} />
                     <div className='flex justify-between items-center w-full'>
@@ -55,12 +53,12 @@ const Login: React.FC<LoginProps> = () => {
                     </div>
                 </form>
                 <div className='my-4'>
-                    <span>Se non hai un'account <Link to="/register"><strong className='text-cyan-950 underline cursor-pointer'>registrati</strong></Link></span>
+                    <span>Possiedi già un'account <Link to="/login"><strong className='text-cyan-950 underline cursor-pointer'>Log in</strong></Link></span>
                 </div>
                 {(errors?.email || errors?.password )&& <span className='text-red-500'>Invalid Credentials</span>}
-            </div>
+            </div>  
         </>
     );
 }
 
-export default Login
+export default Register

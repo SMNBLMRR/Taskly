@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../ui/molecules/Header';
+import Hero from '../../ui/atoms/Hero';
 
 interface HomeProps {
     
@@ -9,7 +10,7 @@ const Home: React.FC<HomeProps> = () => {
     return (
         <>
         <Header />
-            <h1>hi from homepage</h1>
+        <Hero />
         </>
     );
 }

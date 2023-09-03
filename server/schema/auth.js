@@ -16,7 +16,7 @@ const loginSchema = {
     .prop("email",S.string().format(S.FORMATS.EMAIL).required())
     .prop("password",S.string().minLength(8).required()),
     response:{
-        201:S.object().prop("msg",S.string())
+        200:S.object().prop("msg",S.string())
     }
 }
 

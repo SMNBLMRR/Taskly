@@ -20,7 +20,8 @@ async function app(fastify, options) {
   await fastify.register(fastifyEnv, opt);
 
   await fastify.register(fastifyCors, {
-    origin: [fastify.config.CLIENT_BASE_URL]
+    origin: [fastify.config.CLIENT_BASE_URL],
+    credentials:true,
   });
 
   await fastify.register(Sensible);

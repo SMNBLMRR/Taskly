@@ -72,10 +72,11 @@ async function register(fastify, options) {
           httpOnly: true,
           signed: true,
           sameSite: true,
-          //path:"/"
+          path:"/",
           maxAge: 604800,
           expires: new Date(Date.now() + 604800 * 1000),
         });
+        res.code(200);
         return {
           msg: "Logged in"
         };
@@ -86,5 +87,17 @@ async function register(fastify, options) {
       return fastify.httpErrors.internalServerError();
     }
   }
+
+  fastify.route({
+    method: "POST",
+    path: "/api/v1/logout",
+    //schema: logoutSchema,
+    handler: logoutHandler
+  });
+
+  async function logoutHandler(req,res){
+    res.clearCookie("session_user",{path:"/"})
+  }
+
 }
 module.exports = register;

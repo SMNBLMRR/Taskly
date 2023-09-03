@@ -1,19 +1,13 @@
 export interface MenuInterface {
     id:number,
     name:string,
-    path:string
+    path:string,
+    style:string
 }
 
 export const menu:MenuInterface[] = [{
-    id:1,
-    name:"Home",
-    path:"/"
-},{
     id:2,
-    name:"Login",
-    path:"/login"
-},{
-    id:3,
-    name:"Register",
-    path:"/register"
+    name:"Log in",
+    path:"/login",
+    style:"rounded-md bg-black text-white py-2 px-4"
 }]
