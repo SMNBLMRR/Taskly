@@ -57,29 +57,30 @@ async function register(fastify, options) {
       if (!user) return httpErrors.badRequest();
       const isMatchedPassword = await bcrypt.compare(password, user.password);
       if (isMatchedPassword) {
-        const token = jwt.sign({
-          uid: user?.id,
-          email
-        },{
-          sign: {
-            expires: new Date(Date.now() + 604800 * 1000),
-            algorithm: "HS256",
+        const token = jwt.sign(
+          {
+            uid: user?.id,
+            email
           },
-        });
+          {
+            sign: {
+              expires: new Date(Date.now() + 604800 * 1000),
+              algorithm: "HS256"
+            }
+          }
+        );
 
         res.setCookie("session_user", token, {
           secure: process.env.NODE_ENV === "production",
           httpOnly: true,
           signed: true,
           sameSite: true,
-          path:"/",
+          path: "/",
           maxAge: 604800,
-          expires: new Date(Date.now() + 604800 * 1000),
+          expires: new Date(Date.now() + 604800 * 1000)
         });
         res.code(200);
-        return {
-          msg: "Logged in"
-        };
+        return user;
       } else {
         return httpErrors.badRequest();
       }
@@ -89,15 +90,14 @@ async function register(fastify, options) {
   }
 
   fastify.route({
-    method: "POST",
+    method: "GET",
     path: "/api/v1/logout",
     //schema: logoutSchema,
     handler: logoutHandler
   });
 
-  async function logoutHandler(req,res){
-    res.clearCookie("session_user",{path:"/"})
+  async function logoutHandler(req, res) {
+    res.clearCookie("session_user", { path: "/" });
   }
-
 }
 module.exports = register;

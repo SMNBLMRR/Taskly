@@ -1,13 +1,12 @@
-const { todosSchema, saveTodoSchema, singleTodoSchema } = require("../schema/todo");
-
+const { todosSchema, saveTodoSchema } = require("../schema/todo");
 async function todo(fastify, options) {
   const { prisma, httpErrors, isAuth } = fastify;
 
   fastify.route({
     method: "GET",
-    path: "/api/v1/todos",
-    schema: todosSchema,
+    path: "/api/v1/todo",
     onRequest: isAuth,
+    schema: todosSchema,
     handler: getTodos
   });
 
@@ -28,28 +27,30 @@ async function todo(fastify, options) {
   }
 
   fastify.route({
-    method: "GET",
-    path: "/api/v1/todos/:todoId",
-    schema: singleTodoSchema,
+    method: "PATCH",
+    path: "/api/v1/todo",
     onRequest: isAuth,
-    handler: getTodosById
+    //schema:
+    handler: todoUpdateHandler
   });
 
-  async function getTodosById(req, res) {
+  async function todoUpdateHandler(req, res) {
     const { uid } = req.user;
-    const { todoId } = req.params;
+    const { id, ...payload } = req.body;
+
     try {
-      const todo = await prisma.todo.findFirst({
+      const updatedTodo = await prisma.todo.update({
         where: {
-          id: parseInt(todoId),
-          userId: uid
-        }
+          userId: uid,
+          id
+        },
+        data: payload
       });
-      if (!todo) return { msg: "Empty todo" };
-      res.code(200);
-      return todo;
+      console.log("updatedTodo request handler", updatedTodo);
+      if (updatedTodo) return updatedTodo;
     } catch (error) {
-      return httpErrors.notFound();
+      console.log(error);
+      return httpErrors.badRequest();
     }
   }
 
@@ -82,7 +83,7 @@ async function todo(fastify, options) {
 
   fastify.route({
     method: "DELETE",
-    path: "/api/v1/todos/:todoId",
+    path: "/api/v1/todo",
     schema: deleteTodo,
     onRequest: isAuth,
     handler: deleteTodo
@@ -90,14 +91,15 @@ async function todo(fastify, options) {
 
   async function deleteTodo(req, res) {
     const { uid } = req.user;
-    const { todoId } = req.params;
+    const { id } = req.query;
     try {
       const todo = await prisma.todo.delete({
         where: {
-          id: parseInt(todoId),
+          id: parseInt(id),
           userId: uid
         }
       });
+      console.log(todo);
       if (!todo) return httpErrors.notFound();
       res.code(204);
       return;

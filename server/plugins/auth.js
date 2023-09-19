@@ -50,32 +50,9 @@ async function auth(fastify, options) {
 
   async function isDemiAuth(req, res) {
     return isAuthorized(req, res, () => {
-      return req.user = null;
+      return (req.user = null);
     });
   }
-
-  //standard
-  /*
-  async function isAuth(req, res) {
-    const { session_user } = req.cookies;
-    if (!session_user) throw fastify.httpErrors.unauthorized();
-    const cookie = req.unsignCookie(session_user);
-    if (cookie.valid) {
-      try {
-        req.jwtVerify(cookie.value);
-        const { email, uid } = fastify.jwt.decode(cookie.value);
-        req.user = {
-          email,
-          uid
-        };
-      } catch (err) {
-        throw fastify.httpErrors.unauthorized();
-      }
-    } else {
-      throw fastify.httpErrors.unauthorized();
-    }
-  }
-  */
 }
 
 module.exports = fp(auth);

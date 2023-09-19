@@ -1,15 +1,5 @@
 import { AxiosResponse } from "axios";
-import { UserInterface } from "../store/user";
 import request from "../util/request";
-
-export interface LoginSchema {
-    email:string,
-    password:string
-}
-
-export async function doLogin(data:LoginSchema):Promise<AxiosResponse>{
-    return request.post("/api/v1/login",data)
-}
 
 export interface RegisterSchema {
     email:string,
@@ -17,6 +7,16 @@ export interface RegisterSchema {
     password:string
 }
 
+export interface LoginSchema extends Omit<RegisterSchema, "username"> {}
+
+export async function doLogin(data:LoginSchema):Promise<AxiosResponse>{
+    return request.post("/api/v1/login",data)
+}
+
 export async function doRegister(data:RegisterSchema):Promise<AxiosResponse>{
     return request.post("/api/v1/register",data)
+}
+
+export async function doLogout():Promise<AxiosResponse>{
+    return request.get("/api/v1/logout")
 }

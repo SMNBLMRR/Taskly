@@ -1,21 +1,14 @@
-import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
-import userStore from '../store/user';
-import Loader from '../ui/atoms/Loader';
-
+import React from "react";
+import { Outlet, Navigate } from "react-router-dom";
+import userStore from "../store/user";
+import Loader from "../ui/atoms/Loader";
 
 const ProtectedRoute: React.FC = () => {
-  const user = userStore((state) => state.user);
-  const hasLoaded = userStore((state) => state.hasLoaded);
+  const { user, hasLoaded } = userStore();
+  if (hasLoaded) {
+    return <Loader />;
+  }
+  return user ? <Outlet /> : <Navigate to="/login" />;
+};
 
-    if(hasLoaded){
-      return (
-        <Loader />
-      )
-    }
-    return (
-      user ? <Outlet /> : <Navigate to="/login" />
-    );
-}
-
-export default ProtectedRoute
+export default ProtectedRoute;

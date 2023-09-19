@@ -1,6 +1,6 @@
-import { UserInterface } from "../store/user"
-import request from "../util/request"
+import { AxiosPromise } from "axios";
+import request from "../util/request";
 
-export default async function getUserInfoService<T extends UserInterface>():Promise<any>{
-    return request.get("/api/v1/userInfo")
+export default async function getUserInfoService(): Promise<AxiosPromise> {
+  return request.get("/api/v1/userInfo");
 }

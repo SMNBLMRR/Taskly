@@ -1,4 +1,5 @@
 const Autoload = require("@fastify/autoload");
+const Helmet = require("@fastify/helmet");
 const { join } = require("path");
 const fastifyCors = require("@fastify/cors");
 const fastifyEnv = require("@fastify/env");
@@ -17,12 +18,14 @@ async function app(fastify, options) {
     dotenv: true
   };
 
-  await fastify.register(fastifyEnv, opt);
+  await fastify.register(fastifyEnv, opt)
 
   await fastify.register(fastifyCors, {
     origin: [fastify.config.CLIENT_BASE_URL],
-    credentials:true,
+    credentials: true
   });
+
+  await fastify.register(Helmet);
 
   await fastify.register(Sensible);
 

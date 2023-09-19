@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderWidth:{
+        "small":"1px"
+      },
       height:{
         "smallest":"1px"
       },

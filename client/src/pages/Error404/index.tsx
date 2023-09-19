@@ -1,23 +1,19 @@
-import React from 'react';
-import Header from '../../ui/molecules/Header';
-import request from '../../util/request';
+import React from "react";
+import Header from "../../ui/molecules/Header";
 
-interface Error404Props {
-    
-}
+interface Error404Props {}
 
 const Error404: React.FC<Error404Props> = () => {
+  return (
+    <>
+      <Header />
+      <div className="flex flex-col w-full h-screen justify-center items-center">
+        <h1 className="text-6xl">
+          <strong>404</strong> Page not Found
+        </h1>
+      </div>
+    </>
+  );
+};
 
-    async function handleclick(){
-        request.post("/api/v1/logout")
-    }
-
-    return (
-        <div>
-            <Header />
-            <button onClick={handleclick}>logout</button>
-        </div>
-    );
-}
-
-export default Error404
+export default Error404;

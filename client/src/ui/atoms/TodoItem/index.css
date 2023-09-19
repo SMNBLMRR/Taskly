@@ -1,0 +1,15 @@
+/* Add custom utilities to hide scrollbars */
+.hide-scrollbar::-webkit-scrollbar {
+    width: 1px;  /* Hide scrollbar for Webkit browsers (e.g., Chrome, Safari) */
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 5px rgb(190, 139, 139);  */
+    border-radius: 0px;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar-thumb {
+    background: #fa617b; 
+    border-radius: 0px;
+  }
+  
