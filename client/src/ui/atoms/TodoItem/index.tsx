@@ -1,40 +1,17 @@
 import React, { ChangeEvent, useRef, useState } from "react";
-import todoStore, { Todo } from "../../../store/todo";
-import { deleteTodoSevice, updateTodoService } from "../../../services/todo";
+import { Todo } from "../../../store/todo";
 import "./index.css";
-import { AxiosResponse } from "axios";
 import { AiFillDelete, AiOutlineCheckCircle } from "react-icons/ai";
 import { priority } from "../../../util/tag";
+import { useTodoAPI } from "../../../hooks/useTodoApi";
 
 interface TodoItemsProps {
   todo: Todo;
 }
 
 const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
-  const { updateTodo, deleteTodo } = todoStore();
 
-  function updateTodoRadio(todo: Todo) {
-    updateTodo(todo?.id, { checked: !todo?.checked });
-    updateTodoService(todo?.id, { checked: !todo?.checked })
-      .then((resp: AxiosResponse) => {
-        //toas notification
-      })
-      .catch(err => {
-        //toast notification
-        updateTodo(todo?.id, { checked: todo?.checked });
-      });
-  }
-
-  function handleDelete(id: number) {
-    deleteTodo(id);
-    deleteTodoSevice(id)
-      .then((resp: AxiosResponse) => {
-        //toast notification
-      })
-      .catch(err => {
-        console.log("err");
-      });
-  }
+  const { toggleTodo, deleteTodoItem, updateTodoState, setPriority } = useTodoAPI(todo.id);
 
   const [todoState, setTodoState] = useState({
     title: todo?.title,
@@ -57,34 +34,11 @@ const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
 
   const [isToogle, setIsToggle] = useState(false);
   
-  function handleSubmit(id: number) {
-    updateTodo(id, { ...todoState });
-    updateTodoService(id, { ...todoState })
-      .then((resp: AxiosResponse) => {
-        //toast notification
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  function handleChangePriority(id: number, priority: any) {
-    console.log(priority);
-    updateTodo(todo?.id, { priority });
-    updateTodoService(id, { priority })
-      .then((resp: AxiosResponse) => {
-        //toast notification
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
   return (
     <div key={todo?.id} className="p-2 border-[1px] border-transparent hover:border-gray-500 rounded-md mb-2 flex justify-center">
       {/* checkbox */}
       <div className="flex justify-center items-center relative mx-2">
-        <span onClick={() => updateTodoRadio(todo)} className="w-4 relative h-4 hover:opacity-[0.5] rounded m-auto border flex justify-center items-center">
+        <span onClick={() => toggleTodo(!todo?.checked)} className="w-4 relative h-4 hover:opacity-[0.5] rounded m-auto border flex justify-center items-center">
           <span className={`w-4/6 h-4/6 block rounded-[2px] ${todo?.checked ? "bg-[#fa617b]" : ""}`}></span>
         </span>
       </div>
@@ -103,7 +57,7 @@ const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
 
       {/* description */}
       <div className="flex justify-center items-center relative mx-2">
-        <input
+        <input 
           onChange={handleChange}
           readOnly={todo?.checked}
           value={todoState.description ?? ""}
@@ -129,7 +83,7 @@ const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
                 <span className="w-3 h-3 block bg-[#313135] rotate-45 -mb-[10px] -top-1 absolute"></span>
                 {Object.entries(priority).map((elem, i) => {
                   return (
-                    <div key={i} onClick={() => handleChangePriority(todo?.id, elem[0])} className="text-center bg-[#171719] my-1 rounded px-1 hover:cursor-pointer hover:opacity-[0.5]">
+                    <div key={i} onClick={() => setPriority(elem[0])} className="text-center bg-[#171719] my-1 rounded px-1 hover:cursor-pointer hover:opacity-[0.5]">
                       <div>
                         <h1>{elem[0]}</h1>
                       </div>
@@ -143,13 +97,12 @@ const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
       </div>
 
       {/* Actions */}
-      
       <div className="flex justify-center items-center relative ml-6">
         <span className="mx-2">
-          <AiFillDelete size={17} className="hover:opacity-[0.5]" onClick={() => handleDelete(todo?.id)} color="#fa617b" />
+          <AiFillDelete size={17} className="hover:opacity-[0.5]" onClick={() => deleteTodoItem()} color="#fa617b" />
         </span>
         <span className="mx-2">
-          {inputHasChanged() ? <AiOutlineCheckCircle size={17} color="green" className="hover:opacity-[0.5]" onClick={() => handleSubmit(todo?.id)} /> : <AiOutlineCheckCircle size={17} className="hover:cursor-not-allowed" color="red" />}
+          {inputHasChanged() ? <AiOutlineCheckCircle size={17} color="green" className="hover:opacity-[0.5]" onClick={() => updateTodoState(todoState)} /> : <AiOutlineCheckCircle size={17} className="hover:cursor-not-allowed" color="red" />}
         </span>
       </div>
     </div>
