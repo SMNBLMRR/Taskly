@@ -14,7 +14,7 @@ An advanced To-Do List Application build on top of fastify and react
 
 ## Installation
 Follow these steps to get Taskly up and running:
-# Server
+
 #### after the repository has cloned follow these steps ####
 
 ### Crete an ``.env`` file for client and server folder
@@ -23,6 +23,8 @@ es:
 ```bash
 cp .env.template .env
 ```
+
+# Server
 
 ### Run this command and generate a secret
 ```bash
