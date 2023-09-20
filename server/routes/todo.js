@@ -1,4 +1,4 @@
-const { todosSchema, saveTodoSchema } = require("../schema/todo");
+const { todosSchema, saveTodoSchema, updateTodoSchema } = require("../schema/todo");
 async function todo(fastify, options) {
   const { prisma, httpErrors, isAuth } = fastify;
 
@@ -30,7 +30,7 @@ async function todo(fastify, options) {
     method: "PATCH",
     path: "/api/v1/todo",
     onRequest: isAuth,
-    //schema:
+    schema:updateTodoSchema,
     handler: todoUpdateHandler
   });
 
@@ -46,8 +46,11 @@ async function todo(fastify, options) {
         },
         data: payload
       });
-      console.log("updatedTodo request handler", updatedTodo);
-      if (updatedTodo) return updatedTodo;
+      if (updatedTodo){
+        res.code(200);
+        return updatedTodo;
+      } 
+      return httpErrors.badRequest();
     } catch (error) {
       console.log(error);
       return httpErrors.badRequest();
@@ -99,7 +102,6 @@ async function todo(fastify, options) {
           userId: uid
         }
       });
-      console.log(todo);
       if (!todo) return httpErrors.notFound();
       res.code(204);
       return;

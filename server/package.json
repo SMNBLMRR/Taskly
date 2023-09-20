@@ -19,13 +19,11 @@
     "@fastify/helmet": "^11.0.0",
     "@fastify/jwt": "^7.2.0",
     "@fastify/sensible": "^5.2.0",
-    "@fastify/session": "^10.4.0",
     "@prisma/client": "^5.2.0",
     "bcrypt": "^5.1.1",
     "fastify": "^4.21.0",
     "fastify-plugin": "^4.5.1",
-    "fluent-json-schema": "^4.1.1",
-    "jose": "^4.14.4"
+    "fluent-json-schema": "^4.1.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

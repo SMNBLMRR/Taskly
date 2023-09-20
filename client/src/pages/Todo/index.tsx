@@ -19,7 +19,6 @@ const Todos: React.FC<TodoProps> = () => {
     doLogout()
       .then((resp: AxiosResponse) => {
         //toast notification
-        console.log(resp);
         navigate("/");
       })
       .catch(err => {
@@ -55,7 +54,7 @@ const Todos: React.FC<TodoProps> = () => {
             })
         ) : (
           <div>
-            <h1 className="text-black text-4xl font-bold px-6 py-2 bg-white rounded">Empty List</h1>
+            <h1 className="text-[#414141] text-4xl font-bold px-6 py-2">There are currently no activities</h1>
           </div>
         )}
       </aside>

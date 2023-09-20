@@ -42,6 +42,28 @@ const saveTodoSchema = {
   }
 };
 
+const updateTodoSchema = {
+  body: S.object()
+    .additionalProperties(false)
+    .prop("id", S.integer())
+    .prop("title", S.anyOf([S.string(), S.null()]))
+    .prop("description", S.anyOf([S.string(), S.null()]))
+    .prop("priority", S.anyOf([S.string(), S.null()]))
+    .prop("createdAt", S.anyOf([S.string().format("date"), S.null()]))
+    .prop("updatedAt", S.anyOf([S.string().format("date"), S.null()]))
+    .prop("checked", S.anyOf([S.boolean(), S.null()])),
+  response: {
+    200: S.object()
+      .prop("id", S.integer())
+      .prop("title", S.string())
+      .prop("description", S.anyOf([S.string(), S.null()]))
+      .prop("priority", S.anyOf([S.string(), S.null()]))
+      .prop("createdAt", S.string().format("date"))
+      .prop("updatedAt", S.string().format("date"))
+      .prop("checked", S.boolean())
+  }
+}
+
 const deleteTodo = {
   response: {
     204: S.null()
@@ -50,6 +72,7 @@ const deleteTodo = {
 
 module.exports = {
   todosSchema,
+  updateTodoSchema,
   singleTodoSchema,
   deleteTodo,
   saveTodoSchema

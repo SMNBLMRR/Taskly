@@ -1,18 +1,15 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Todo } from "../../../store/todo";
 import "./index.css";
-import { AiFillDelete, AiOutlineCheckCircle } from "react-icons/ai";
-import { priority } from "../../../util/tag";
-import { useTodoAPI } from "../../../hooks/useTodoApi";
+import PrioritySelect from "../PrioritySelect";
+import TodoAction from "../TodoAction";
+import ToggleTodoButton from "../ToggleTodoButton";
 
 interface TodoItemsProps {
   todo: Todo;
 }
 
 const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
-
-  const { toggleTodo, deleteTodoItem, updateTodoState, setPriority } = useTodoAPI(todo.id);
-
   const [todoState, setTodoState] = useState({
     title: todo?.title,
     description: todo?.description ?? ""
@@ -26,23 +23,9 @@ const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
     }));
   }
 
-  const initialFormState = useRef(todoState);
-
-  function inputHasChanged() {
-    return todoState.title !== initialFormState.current.title || todoState.description !== initialFormState.current.description;
-  }
-
-  const [isToogle, setIsToggle] = useState(false);
-  
   return (
     <div key={todo?.id} className="p-2 border-[1px] border-transparent hover:border-gray-500 rounded-md mb-2 flex justify-center">
-      {/* checkbox */}
-      <div className="flex justify-center items-center relative mx-2">
-        <span onClick={() => toggleTodo(!todo?.checked)} className="w-4 relative h-4 hover:opacity-[0.5] rounded m-auto border flex justify-center items-center">
-          <span className={`w-4/6 h-4/6 block rounded-[2px] ${todo?.checked ? "bg-[#fa617b]" : ""}`}></span>
-        </span>
-      </div>
-
+      <ToggleTodoButton todo={todo} />
       {/* title */}
       <div className="flex justify-center items-center relative">
         <input
@@ -57,7 +40,7 @@ const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
 
       {/* description */}
       <div className="flex justify-center items-center relative mx-2">
-        <input 
+        <input
           onChange={handleChange}
           readOnly={todo?.checked}
           value={todoState.description ?? ""}
@@ -73,38 +56,10 @@ const TodoItems: React.FC<TodoItemsProps> = ({ todo }) => {
       </div>
 
       {/* priority */}
-
-      <div className="flex justify-center items-center relative mx-4 text-[#9b9cf1]">
-        <div className="relative flex">
-          <div style={{ backgroundColor: priority[todo?.priority ?? "LOW"].color }} className={`px-2 text-white rounded-[5px] w-20 text-center`} onClick={() => setIsToggle(!isToogle)}>
-            {todo?.priority ?? "Priority"}
-            {isToogle ? (
-              <div className="absolute rounded p-2 left-0 bg-[#313135] mt-2 z-[999]">
-                <span className="w-3 h-3 block bg-[#313135] rotate-45 -mb-[10px] -top-1 absolute"></span>
-                {Object.entries(priority).map((elem, i) => {
-                  return (
-                    <div key={i} onClick={() => setPriority(elem[0])} className="text-center bg-[#171719] my-1 rounded px-1 hover:cursor-pointer hover:opacity-[0.5]">
-                      <div>
-                        <h1>{elem[0]}</h1>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : null}
-          </div>
-        </div>
-      </div>
+      <PrioritySelect todo={todo} />
 
       {/* Actions */}
-      <div className="flex justify-center items-center relative ml-6">
-        <span className="mx-2">
-          <AiFillDelete size={17} className="hover:opacity-[0.5]" onClick={() => deleteTodoItem()} color="#fa617b" />
-        </span>
-        <span className="mx-2">
-          {inputHasChanged() ? <AiOutlineCheckCircle size={17} color="green" className="hover:opacity-[0.5]" onClick={() => updateTodoState(todoState)} /> : <AiOutlineCheckCircle size={17} className="hover:cursor-not-allowed" color="red" />}
-        </span>
-      </div>
+      <TodoAction todoId={todo?.id} todoState={todoState} />
     </div>
   );
 };

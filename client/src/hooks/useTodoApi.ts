@@ -8,20 +8,22 @@ export const useTodoAPI = (todoId: number) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const updateTodoState = async (todo:TodoPayloadInterface) => {
+  const updateTodoFunc = async (todo:TodoPayloadInterface, cb:any) => {
     setIsLoading(true);
     try {
     await updateTodoService(todoId, { ...todo })
     updateTodo(todoId, { ...todo });
+    
     } catch (err:any) {
       setError(err);
       // handle error here, maybe revert the state
     } finally {
       setIsLoading(false);
+      cb();
     }
   }
 
-  const toggleTodo = async (checked: boolean) => {
+  const toggleTodoFunc = async (checked: boolean) => {
     setIsLoading(true);
     try {
       await updateTodoService(todoId, { checked });
@@ -34,7 +36,7 @@ export const useTodoAPI = (todoId: number) => {
     }
   };
 
-  const setPriority = async (priority:any) => {
+  const updatePriorityFunc = async (priority:any) => {
     setIsLoading(true);
     try {
       await updateTodoService(todoId, { priority });
@@ -47,7 +49,7 @@ export const useTodoAPI = (todoId: number) => {
     }
   }
 
-  const deleteTodoItem = async () => {
+  const deleteTodoFunc = async () => {
     setIsLoading(true);
     try {
       await deleteTodoSevice(todoId);
@@ -61,10 +63,10 @@ export const useTodoAPI = (todoId: number) => {
   };
 
   return {
-    updateTodoState,
-    toggleTodo,
-    deleteTodoItem,
-    setPriority,
+    updateTodoFunc,
+    toggleTodoFunc,
+    deleteTodoFunc,
+    updatePriorityFunc,
     isLoading,
     error,
   };

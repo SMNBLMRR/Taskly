@@ -25,6 +25,12 @@ es:
 cp .env.template .env
 ```
 
+### Run this command and generate a secret
+```bash
+openssl rand -base64 32
+```
+This will produce a Base64 encoded string derived from 32 bytes of random data, which will be suitable for a cookie secret or jwt secret.
+
 ### Install Dependencies:
 In the project root run this command
 
