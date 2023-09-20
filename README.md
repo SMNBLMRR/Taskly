@@ -53,4 +53,4 @@ npm i
 ```bash
 npm run dev
 ```
-this command makes both the sever and client run with the power of npm workspace and npm-run-all
+this command makes both the sever and client run thanks to npm workspace and npm-run-all
