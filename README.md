@@ -31,6 +31,10 @@ openssl rand -base64 32
 ```
 This will produce a Base64 encoded string derived from 32 bytes of random data, which will be suitable for a cookie secret or jwt secret.
 
+### Postgresql Connection string
+add the [Connection URL](https://www.prisma.io/docs/concepts/database-connectors/postgresql#base-url-and-path)
+ that allows you to connect to the database in the `.env` file **DATABASE_URL**
+
 ### Install Dependencies:
 In the project root run this command
 
@@ -42,4 +46,4 @@ npm i
 ```bash
 npm run dev
 ```
-this command makes both the sever and client run
+this command makes both the sever and client run with the power of npm workspace and npm-run-all
