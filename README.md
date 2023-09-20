@@ -13,9 +13,8 @@ An advanced To-Do List Application build on top of fastify and react
 *most of the conventions have been overlooked for a fast development of the project... I will work on it to make it better*
 
 ## Installation
-# BE
 Follow these steps to get Taskly up and running:
-
+# BE
 #### after the repository has cloned follow these steps ####
 
 ### Crete an ``.env`` file for client and server folder
