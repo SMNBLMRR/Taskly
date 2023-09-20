@@ -14,7 +14,7 @@ An advanced To-Do List Application build on top of fastify and react
 
 ## Installation
 Follow these steps to get Taskly up and running:
-# BE
+# Server
 #### after the repository has cloned follow these steps ####
 
 ### Crete an ``.env`` file for client and server folder
@@ -34,7 +34,7 @@ This will produce a Base64 encoded string derived from 32 bytes of random data, 
 add the [Connection URL](https://www.prisma.io/docs/concepts/database-connectors/postgresql#base-url-and-path)
  that allows you to connect to the database in the `.env` file **DATABASE_URL**
 
-# FE
+# Client
 
 Add the **REACT_APP_SERVER_BASE_URL** to your env file inside the client folder.
 e.g. *http://localhost:8081*
