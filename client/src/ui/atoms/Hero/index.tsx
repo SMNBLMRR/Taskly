@@ -14,7 +14,7 @@ const Hero: React.FC<HeroProps> = () => {
           <div className="flex justify-center items-center">
             <button className="shadow-shadow-ligth px-4 bg-primary-button text-white py-1 rounded">
               <a href="/login">
-                <span>Provalo Ora</span>
+                <span>Try it now</span>
               </a>
             </button>
           </div>
