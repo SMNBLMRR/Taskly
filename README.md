@@ -10,7 +10,7 @@ An advanced To-Do List Application build on top of fastify and react
 - **State Management**: Employs Zustand for intuitive and simple state handling.
 - **Task Management**: Full CRUD operations
 
-# most of the conventions have been overlooked for a fast development of the project... I will work on it to make it better #
+* most of the conventions have been overlooked for a fast development of the project... I will work on it to make it better *
 
 ## Installation
 
