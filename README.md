@@ -1,3 +1,4 @@
+![github2](https://github.com/SMNBLMRR/Taskly/assets/105361460/b45f40a8-85a2-4478-a4d6-3ed5f4e6fa37)
 
 # Taskly
 
